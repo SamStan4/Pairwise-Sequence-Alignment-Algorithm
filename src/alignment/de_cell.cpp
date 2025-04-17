@@ -9,16 +9,50 @@ const int64_t gap_extension_score = -1;
 
 // MARK: private methods
 
-void dp_cell::score_s(const dp_cell& cell_s) {
-  throw std::runtime_error("not implemented");
+void dp_cell::score_s(const dp_cell& cell_s, const char c_one, const char c_two) {
+  const int64_t s_candidate = cell_s.get_s_score();
+  const int64_t d_candidate = cell_s.get_d_score();
+  const int64_t i_candidate = cell_s.get_i_score();
+  const int64_t max_candidate = std::max(s_candidate, std::max(d_candidate, i_candidate));
+  if (s_candidate == max_candidate) {
+    this->m_s_matches = cell_s.get_s_matches();
+  } else if (d_candidate == max_candidate) {
+    this->m_s_matches = cell_s.get_d_matches();
+  } else {
+    this->m_s_matches = cell_s.get_i_matches();
+  }
+  this->m_s_matches += (c_one == c_two ? 1 : 0);
+  this->m_s_score = std::max(dp_cell::min_score, max_candidate + (c_one == c_two ? match_score : mismatch_score));
 }
 
 void dp_cell::score_d(const dp_cell& cell_d) {
-  throw std::runtime_error("not implemented");
+  const int64_t s_candidate = cell_d.get_s_score() + opening_gap_score + gap_extension_score;
+  const int64_t d_candidate = cell_d.get_d_score() + gap_extension_score;
+  const int64_t i_candidate = cell_d.get_i_score() + opening_gap_score + gap_extension_score;
+  const int64_t max_candidate = std::max(s_candidate, std::max(d_candidate, i_candidate));
+  if (s_candidate == max_candidate) {
+    this->m_d_matches = cell_d.get_s_matches();
+  } else if (d_candidate == max_candidate) {
+    this->m_d_matches = cell_d.get_d_matches();
+  } else {
+    this->m_d_matches = cell_d.get_i_matches();
+  }
+  this->m_d_score = std::max(dp_cell::min_score, max_candidate);
 }
 
 void dp_cell::score_i(const dp_cell& cell_i) {
-  throw std::runtime_error("not implemented");
+  const int64_t s_candidate = cell_i.get_s_score() + opening_gap_score + gap_extension_score;
+  const int64_t d_candidate = cell_i.get_d_score() + opening_gap_score + gap_extension_score;
+  const int64_t i_candidate = cell_i.get_i_score() + gap_extension_score;
+  const int64_t max_candidate = std::max(s_candidate, std::max(d_candidate, i_candidate));
+  if (s_candidate == max_candidate) {
+    this->m_i_matches = cell_i.get_s_matches();
+  } else if (d_candidate == max_candidate) {
+    this->m_i_matches = cell_i.get_d_matches();
+  } else {
+    this->m_i_matches = cell_i.get_i_matches();
+  }
+  this->m_i_score = std::max(dp_cell::min_score, max_candidate);
 }
 
 // MARK: public methods
@@ -49,8 +83,8 @@ int32_t dp_cell::get_max_score_matches(void) const {
   return this->m_i_matches;
 }
 
-void dp_cell::score_cell(const dp_cell& cell_s, const dp_cell& cell_d, const dp_cell& cell_i) {
-  this->score_s(cell_s);
+void dp_cell::score_cell(const dp_cell& cell_s, const dp_cell& cell_d, const dp_cell& cell_i, const char c_one, const char c_two) {
+  this->score_s(cell_s, c_one, c_two);
   this->score_d(cell_d);
   this->score_i(cell_i);
 }
