@@ -11,11 +11,11 @@ dp_cell::dp_cell() :
   m_i_matches(0) {
 }
 
-int64_t dp_cell::get_max_score(void) {
+int64_t dp_cell::get_max_score(void) const {
   return std::max(this->m_s_score, std::max(this->m_d_score, this->m_i_score));
 }
 
-int32_t dp_cell::get_max_score_matches(void) {
+int32_t dp_cell::get_max_score_matches(void) const {
   const int64_t max_score = std::max(this->m_s_score, std::max(this->m_d_score, this->m_i_score));
   if (max_score == this->m_s_score) {
     return this->m_s_matches;

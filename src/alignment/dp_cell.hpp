@@ -16,8 +16,8 @@ private:
   int32_t m_i_matches;
 public:
   dp_cell();
-  int64_t get_max_score(void);
-  int32_t get_max_score_matches(void);
+  int64_t get_max_score(void) const;
+  int32_t get_max_score_matches(void) const;
   void score_cell(const dp_cell&, const dp_cell&, const dp_cell&);
   void reset_cell(void);
 
