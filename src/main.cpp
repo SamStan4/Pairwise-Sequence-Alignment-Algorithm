@@ -1,5 +1,6 @@
-#include <iostream>
+#include "./wrapper/program_wrapper.hpp"
 
 int main(int argc, char** argv) {
-  std::cout << "hello world" << std::endl;
+  program_wrapper& app = program_wrapper::get_instance();
+  app.run_program(argc, argv);
 }
