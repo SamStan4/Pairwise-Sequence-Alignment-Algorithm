@@ -5,6 +5,11 @@
 #include <algorithm>
 #include <stdexcept>
 
+extern const int64_t match_score;
+extern const int64_t mismatch_score;
+extern const int64_t opening_gap_score;
+extern const int64_t gap_extension_score;
+
 class dp_cell {
 private:
   int64_t m_s_score;
@@ -14,8 +19,13 @@ private:
   int32_t m_s_matches;
   int32_t m_d_matches;
   int32_t m_i_matches;
+
+  void score_s(const dp_cell& cell_s);
+  void score_d(const dp_cell& cell_d);
+  void score_i(const dp_cell& cell_i);
 public:
   dp_cell();
+  ~dp_cell();
   int64_t get_max_score(void) const;
   int32_t get_max_score_matches(void) const;
   void score_cell(const dp_cell&, const dp_cell&, const dp_cell&);

@@ -1,5 +1,26 @@
 #include "./dp_cell.hpp"
 
+// MARK: scores
+
+const int64_t match_score = 1;
+const int64_t mismatch_score = -2;
+const int64_t opening_gap_score = -5;
+const int64_t gap_extension_score = -1;
+
+// MARK: private methods
+
+void dp_cell::score_s(const dp_cell& cell_s) {
+  throw std::runtime_error("not implemented");
+}
+
+void dp_cell::score_d(const dp_cell& cell_d) {
+  throw std::runtime_error("not implemented");
+}
+
+void dp_cell::score_i(const dp_cell& cell_i) {
+  throw std::runtime_error("not implemented");
+}
+
 // MARK: public methods
 
 dp_cell::dp_cell() :
@@ -9,6 +30,9 @@ dp_cell::dp_cell() :
   m_s_matches(0),
   m_d_matches(0),
   m_i_matches(0) {
+}
+
+dp_cell::~dp_cell() {
 }
 
 int64_t dp_cell::get_max_score(void) const {
@@ -26,7 +50,9 @@ int32_t dp_cell::get_max_score_matches(void) const {
 }
 
 void dp_cell::score_cell(const dp_cell& cell_s, const dp_cell& cell_d, const dp_cell& cell_i) {
-  throw std::runtime_error("not implemented");
+  this->score_s(cell_s);
+  this->score_d(cell_d);
+  this->score_i(cell_i);
 }
 
 void dp_cell::reset_cell(void) {
