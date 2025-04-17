@@ -98,6 +98,24 @@ void dp_cell::reset_cell(void) {
   this->m_i_matches = 0;
 }
 
+void dp_cell::set_top_row(size_t col_idx) {
+  this->m_s_score = dp_cell::min_score;
+  this->m_d_score = dp_cell::min_score;
+  this->m_i_score = opening_gap_score + (static_cast<int64_t>(col_idx) * gap_extension_score);
+  this->m_s_matches = 0;
+  this->m_d_matches = 0;
+  this->m_i_matches = 0;
+}
+
+void dp_cell::set_left_col(size_t row_idx) {
+  this->m_s_score = dp_cell::min_score;
+  this->m_d_score = opening_gap_score + (static_cast<int64_t>(row_idx) * gap_extension_score);
+  this->m_i_score = dp_cell::min_score;
+  this->m_s_matches = 0;
+  this->m_d_matches = 0;
+  this->m_i_matches = 0;
+}
+
 // MARK: getters
 
 int64_t dp_cell::get_s_score(void) const {

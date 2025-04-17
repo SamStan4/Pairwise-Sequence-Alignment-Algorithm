@@ -34,6 +34,9 @@ public:
   void score_cell(const dp_cell&, const dp_cell&, const dp_cell&, const char, const char);
   void reset_cell(void);
 
+  void set_top_row(size_t col_idx);
+  void set_left_col(size_t row_idx);
+
   int64_t get_s_score(void) const;
   int64_t get_d_score(void) const;
   int64_t get_i_score(void) const;
