@@ -20,9 +20,9 @@ private:
   int32_t m_d_matches;
   int32_t m_i_matches;
 
-  void score_s(const dp_cell& cell_s);
-  void score_d(const dp_cell& cell_d);
-  void score_i(const dp_cell& cell_i);
+  void score_s(const dp_cell&);
+  void score_d(const dp_cell&);
+  void score_i(const dp_cell&);
 public:
   dp_cell();
   ~dp_cell();
