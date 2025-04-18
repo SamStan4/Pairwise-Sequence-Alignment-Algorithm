@@ -31,3 +31,19 @@ run-sample: $(TARGET)
 		echo "Error: Executable $(TARGET) not found. Please build it first."; \
 		exit 1; \
 	fi
+
+run-brca2: $(TARGET)
+	@if [ -f $(TARGET) ]; then \
+		./$(TARGET) input/Human-Mouse-BRCA2-cds.fasta; \
+	else \
+		echo "Error: Executable $(TARGET) not found. Please build it first."; \
+		exit 1; \
+	fi
+
+run-blind: $(TARGET)
+	@if [ -f $(TARGET) ]; then \
+		./$(TARGET) input/Opsin1_colorblindness_gene.fasta; \
+	else \
+		echo "Error: Executable $(TARGET) not found. Please build it first."; \
+		exit 1; \
+	fi
