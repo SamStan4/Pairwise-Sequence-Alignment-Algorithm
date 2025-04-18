@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <cstdint>
 #include "./../io/io_utils.hpp"
+#include "./../alignment/alignment.hpp"
 
 class program_wrapper {
 private:

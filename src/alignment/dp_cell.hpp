@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <limits>
+#include <fstream>
 
 extern const int64_t match_score;
 extern const int64_t mismatch_score;
@@ -29,7 +30,7 @@ private:
 public:
   dp_cell();
   ~dp_cell();
-  
+
   int64_t get_max_score(void) const;
   int32_t get_max_score_matches(void) const;
   void score_cell(const dp_cell&, const dp_cell&, const dp_cell&, const char, const char);
@@ -53,6 +54,10 @@ public:
   void set_s_matches(int32_t _s_matches);
   void set_d_matches(int32_t _d_matches);
   void set_i_matches(int32_t _i_matches);
+
+  void print_scores(std::ostream&) const;
+  void print_matches(std::ostream&) const;
+  void print_all(std::ostream&) const;
 };
 
 #endif

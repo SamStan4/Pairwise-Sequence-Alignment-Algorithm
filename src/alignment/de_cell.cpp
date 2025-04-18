@@ -5,7 +5,7 @@
 const int64_t match_score = 1;
 const int64_t mismatch_score = -2;
 const int64_t opening_gap_score = -5;
-const int64_t gap_extension_score = -1;
+const int64_t gap_extension_score = -2;
 
 // MARK: private methods
 
@@ -166,4 +166,19 @@ void dp_cell::set_d_matches(int32_t _d_matches) {
 
 void dp_cell::set_i_matches(int32_t _i_matches) {
   this->m_i_matches = _i_matches;
+}
+
+// MARK: printers
+
+void dp_cell::print_scores(std::ostream& os) const {
+  os << "(s-[" << this->m_s_score << "], d-[" << this->m_d_score << "], i-[" << this->m_i_score << "])";
+}
+
+void dp_cell::print_matches(std::ostream& os) const {
+  os << "(s-" << this->m_s_matches << ", d-" << this->m_d_matches << ", i-" << this->m_i_matches << ")";
+}
+
+void dp_cell::print_all(std::ostream& os) const {
+  os << "{(s-" << this->m_s_score << ", d-" << this->m_d_score << ", i-" << this->m_i_score << "), (s-"
+  << this->m_s_matches << ", d-" << this->m_d_matches << ", i-" << this->m_i_matches << ")}";
 }
