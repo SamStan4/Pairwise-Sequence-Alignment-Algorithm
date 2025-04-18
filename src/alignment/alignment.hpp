@@ -10,7 +10,7 @@
 #include "./dp_cell.hpp"
 
 namespace alignment {
-  int64_t execute_global_alignment_bad(const std::string&, const std::string&);
+  int64_t execute_global_alignment(const std::string&, const std::string&);
   // int32_t execute_modified_global_alignment(const std::string&, const std::string&);
 }
 

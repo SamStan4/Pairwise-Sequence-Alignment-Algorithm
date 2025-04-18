@@ -59,35 +59,45 @@ namespace io_utils {
     std::string& out_string_two,
     std::string& out_string_one_name,
     std::string& out_string_two_name) {
+  
     out_string_one.clear();
     out_string_two.clear();
     out_string_one_name.clear();
     out_string_two_name.clear();
-    bool first_string_flag = true;
+  
     std::ifstream input_stream(file_path);
     if (!input_stream.is_open()) {
       return false;
     }
+  
     std::string buffer;
-    std::string* cur_string_ptr = &out_string_one;
+    int sequence_count = 0;
+    std::string* cur_string_ptr = nullptr;
+  
     while (std::getline(input_stream, buffer)) {
       if (buffer.empty()) {
         continue;
       } else if (buffer[0] == '>') {
-        if (first_string_flag) {
-          first_string_flag = false;
+        sequence_count++;
+        if (sequence_count == 1) {
           out_string_one_name = buffer.substr(1);
-        } else {
-          cur_string_ptr = &out_string_two;
+          cur_string_ptr = &out_string_one;
+        } else if (sequence_count == 2) {
           out_string_two_name = buffer.substr(1);
+          cur_string_ptr = &out_string_two;
+        } else {
+          break;
         }
         continue;
       }
-      (*cur_string_ptr) += buffer;
+      if (cur_string_ptr) {
+        (*cur_string_ptr) += buffer;
+      }
     }
     input_stream.close();
-    return true;
+    return sequence_count == 2;
   }
+
 
   bool load_alphabet(const char* file_path, std::string& out_string) {
     out_string.clear();
