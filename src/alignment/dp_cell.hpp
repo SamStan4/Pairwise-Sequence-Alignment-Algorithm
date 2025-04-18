@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <limits>
 #include <fstream>
+#include <string>
+#include <sstream>
 
 extern const int64_t match_score;
 extern const int64_t mismatch_score;
@@ -23,6 +25,10 @@ private:
   int32_t m_s_matches;
   int32_t m_d_matches;
   int32_t m_i_matches;
+
+  int32_t m_s_mismatches;
+  int32_t m_d_mismatches;
+  int32_t m_i_mismatches;
 
   void score_s(const dp_cell&, const char, const char);
   void score_d(const dp_cell&);
@@ -47,6 +53,10 @@ public:
   int32_t get_d_matches(void) const;
   int32_t get_i_matches(void) const;
 
+  int32_t get_s_mismatches(void) const;
+  int32_t get_d_mismatches(void) const;
+  int32_t get_i_mismatches(void) const;
+
   void set_s_score(int64_t _s_score);
   void set_d_score(int64_t _d_score);
   void set_i_score(int64_t _i_score);
@@ -58,6 +68,8 @@ public:
   void print_scores(std::ostream&) const;
   void print_matches(std::ostream&) const;
   void print_all(std::ostream&) const;
+
+  std::string to_string(void) const;
 };
 
 #endif

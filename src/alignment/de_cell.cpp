@@ -16,12 +16,16 @@ void dp_cell::score_s(const dp_cell& cell_s, const char c_one, const char c_two)
   const int64_t max_candidate = std::max(s_candidate, std::max(d_candidate, i_candidate));
   if (s_candidate == max_candidate) {
     this->m_s_matches = cell_s.get_s_matches();
+    this->m_s_mismatches = cell_s.get_s_mismatches();
   } else if (d_candidate == max_candidate) {
     this->m_s_matches = cell_s.get_d_matches();
+    this->m_s_mismatches = cell_s.get_d_mismatches();
   } else {
     this->m_s_matches = cell_s.get_i_matches();
+    this->m_s_mismatches = cell_s.get_i_mismatches();
   }
   this->m_s_matches += (c_one == c_two ? 1 : 0);
+  this->m_s_mismatches += (c_one != c_two ? 1 : 0);
   this->m_s_score = std::max(dp_cell::min_score, max_candidate + (c_one == c_two ? match_score : mismatch_score));
 }
 
@@ -32,10 +36,13 @@ void dp_cell::score_d(const dp_cell& cell_d) {
   const int64_t max_candidate = std::max(s_candidate, std::max(d_candidate, i_candidate));
   if (s_candidate == max_candidate) {
     this->m_d_matches = cell_d.get_s_matches();
+    this->m_d_mismatches = cell_d.get_s_mismatches();
   } else if (d_candidate == max_candidate) {
     this->m_d_matches = cell_d.get_d_matches();
+    this->m_d_mismatches = cell_d.get_d_mismatches();
   } else {
     this->m_d_matches = cell_d.get_i_matches();
+    this->m_d_mismatches = cell_d.get_i_mismatches();
   }
   this->m_d_score = std::max(dp_cell::min_score, max_candidate);
 }
@@ -47,10 +54,13 @@ void dp_cell::score_i(const dp_cell& cell_i) {
   const int64_t max_candidate = std::max(s_candidate, std::max(d_candidate, i_candidate));
   if (s_candidate == max_candidate) {
     this->m_i_matches = cell_i.get_s_matches();
+    this->m_i_mismatches = cell_i.get_s_mismatches();
   } else if (d_candidate == max_candidate) {
     this->m_i_matches = cell_i.get_d_matches();
+    this->m_i_mismatches = cell_i.get_d_mismatches();
   } else {
     this->m_i_matches = cell_i.get_i_matches();
+    this->m_i_mismatches = cell_i.get_i_mismatches();
   }
   this->m_i_score = std::max(dp_cell::min_score, max_candidate);
 }
@@ -142,6 +152,18 @@ int32_t dp_cell::get_i_matches(void) const {
   return this->m_i_matches;
 }
 
+int32_t dp_cell::get_s_mismatches(void) const {
+  return this->m_s_mismatches;
+}
+
+int32_t dp_cell::get_d_mismatches(void) const {
+  return this->m_d_mismatches;
+}
+
+int32_t dp_cell::get_i_mismatches(void) const {
+  return this->m_i_mismatches;
+}
+
 // MARK: setters
 
 void dp_cell::set_s_score(int64_t _s_score) {
@@ -181,4 +203,14 @@ void dp_cell::print_matches(std::ostream& os) const {
 void dp_cell::print_all(std::ostream& os) const {
   os << "{(s-" << this->m_s_score << ", d-" << this->m_d_score << ", i-" << this->m_i_score << "), (s-"
   << this->m_s_matches << ", d-" << this->m_d_matches << ", i-" << this->m_i_matches << ")}";
+}
+
+std::string dp_cell::to_string(void) const {
+  std::ostringstream string_stream;
+  string_stream
+    << "{(s_score-[" << this->m_s_score << "], d_score-[" << this->m_d_score << "], i_score[" << this->m_i_score
+    << "]), (s_match-[" << this->m_s_matches << "], d_match[" << this->m_d_matches << "], i_match[" << this->m_d_matches
+    << "]), (s_mis-[" << this->m_s_mismatches << "], d_mis-[" << this->m_d_mismatches << "], i-mis-[" << this->m_i_mismatches
+    << "])}";
+  return string_stream.str();
 }

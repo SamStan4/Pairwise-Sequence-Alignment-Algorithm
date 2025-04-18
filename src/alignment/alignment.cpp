@@ -31,12 +31,14 @@ namespace alignment {
           string_one[row_idx-1],
           string_two[col_idx-1]
         );
-        cur_dp_row[col_idx].print_scores(s);
-        s << " ";
+        // cur_dp_row[col_idx].print_scores(s);
+        // s << " ";
       }
-      s << std::endl;
+      // s << std::endl;
       std::swap(prev_dp_row, cur_dp_row);
     }
+
+    s << prev_dp_row.back().to_string() << std::endl;
 
     s.close();
 
