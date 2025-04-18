@@ -29,6 +29,7 @@ private:
 public:
   dp_cell();
   ~dp_cell();
+  
   int64_t get_max_score(void) const;
   int32_t get_max_score_matches(void) const;
   void score_cell(const dp_cell&, const dp_cell&, const dp_cell&, const char, const char);

@@ -2,6 +2,9 @@
 #define __PROGRAM_WRAPPER_HPP__
 
 #include <iostream>
+#include <stdexcept>
+#include <cstdint>
+#include "./../io/io_utils.hpp"
 
 class program_wrapper {
 private:

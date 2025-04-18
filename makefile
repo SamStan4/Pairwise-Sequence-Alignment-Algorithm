@@ -24,9 +24,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 clean:
 	rm -rf $(OBJDIR)/* $(BINDIR)/*
 
-run: $(TARGET)
+run-sample: $(TARGET)
 	@if [ -f $(TARGET) ]; then \
-		./$(TARGET) inputs/alphabets/English_alphabet.txt inputs/genes/banana.txt; \
+		./$(TARGET) input/base-sample.fasta; \
 	else \
 		echo "Error: Executable $(TARGET) not found. Please build it first."; \
 		exit 1; \
