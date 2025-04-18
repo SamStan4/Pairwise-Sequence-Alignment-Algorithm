@@ -1,1 +1,0 @@
-{(s_score-[43], d_score-[46], i_score[36]), (s_match-[104], d_match[105], i_match[105]), (s_mis-[7], d_mis-[6], i-mis-[6])}
