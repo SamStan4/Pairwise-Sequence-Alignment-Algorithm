@@ -1,15 +1,14 @@
 #include "./dp_cell.hpp"
 
-// MARK: scores
-
-const int64_t match_score = 1;
-const int64_t mismatch_score = -2;
-const int64_t opening_gap_score = -5;
-const int64_t gap_extension_score = -2;
-
 // MARK: private methods
 
-void dp_cell::score_s(const dp_cell& cell_s, const char c_one, const char c_two) {
+void dp_cell::score_s(
+  const dp_cell& cell_s,
+  const char c_one,
+  const char c_two,
+  const int64_t match_score,
+  const int64_t mismatch_score
+) {
   const int64_t s_candidate = cell_s.get_s_score();
   const int64_t d_candidate = cell_s.get_d_score();
   const int64_t i_candidate = cell_s.get_i_score();
@@ -25,7 +24,11 @@ void dp_cell::score_s(const dp_cell& cell_s, const char c_one, const char c_two)
   this->m_s_score = std::max(dp_cell::min_score, max_candidate + (c_one == c_two ? match_score : mismatch_score));
 }
 
-void dp_cell::score_d(const dp_cell& cell_d) {
+void dp_cell::score_d(
+  const dp_cell& cell_d,
+  const int64_t opening_gap_score,
+  const int64_t gap_extension_score
+) {
   const int64_t s_candidate = cell_d.get_s_score() + opening_gap_score + gap_extension_score;
   const int64_t d_candidate = cell_d.get_d_score() + gap_extension_score;
   const int64_t i_candidate = cell_d.get_i_score() + opening_gap_score + gap_extension_score;
@@ -40,7 +43,11 @@ void dp_cell::score_d(const dp_cell& cell_d) {
   this->m_d_score = std::max(dp_cell::min_score, max_candidate);
 }
 
-void dp_cell::score_i(const dp_cell& cell_i) {
+void dp_cell::score_i(
+  const dp_cell& cell_i,
+  const int64_t opening_gap_score,
+  const int64_t gap_extension_score
+) {
   const int64_t s_candidate = cell_i.get_s_score() + opening_gap_score + gap_extension_score;
   const int64_t d_candidate = cell_i.get_d_score() + opening_gap_score + gap_extension_score;
   const int64_t i_candidate = cell_i.get_i_score() + gap_extension_score;
@@ -83,10 +90,20 @@ int32_t dp_cell::get_max_score_matches(void) const {
   return this->m_i_matches;
 }
 
-void dp_cell::score_cell(const dp_cell& cell_s, const dp_cell& cell_d, const dp_cell& cell_i, const char c_one, const char c_two) {
-  this->score_s(cell_s, c_one, c_two);
-  this->score_d(cell_d);
-  this->score_i(cell_i);
+void dp_cell::score_cell(
+  const dp_cell& cell_s,
+  const dp_cell& cell_d,
+  const dp_cell& cell_i,
+  const char c_one,
+  const char c_two,
+  const int64_t match_score,
+  const int64_t mismatch_score,
+  const int64_t opening_gap_score,
+  const int64_t gap_extension_score
+) {
+  this->score_s(cell_s, c_one, c_two, match_score, mismatch_score);
+  this->score_d(cell_d, opening_gap_score, gap_extension_score);
+  this->score_i(cell_i, opening_gap_score, gap_extension_score);
 }
 
 void dp_cell::reset_cell(void) {
@@ -98,7 +115,7 @@ void dp_cell::reset_cell(void) {
   this->m_i_matches = 0;
 }
 
-void dp_cell::set_top_row(size_t col_idx) {
+void dp_cell::set_top_row(size_t col_idx, const int64_t opening_gap_score, const int64_t gap_extension_score) {
   this->m_s_score = dp_cell::min_score;
   this->m_d_score = dp_cell::min_score;
   this->m_i_score = opening_gap_score + (static_cast<int64_t>(col_idx) * gap_extension_score);
@@ -107,7 +124,7 @@ void dp_cell::set_top_row(size_t col_idx) {
   this->m_i_matches = 0;
 }
 
-void dp_cell::set_left_col(size_t row_idx) {
+void dp_cell::set_left_col(size_t row_idx, const int64_t opening_gap_score, const int64_t gap_extension_score) {
   this->m_s_score = dp_cell::min_score;
   this->m_d_score = opening_gap_score + (static_cast<int64_t>(row_idx) * gap_extension_score);
   this->m_i_score = dp_cell::min_score;

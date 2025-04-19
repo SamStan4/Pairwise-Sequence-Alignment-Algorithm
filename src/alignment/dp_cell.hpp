@@ -9,11 +9,6 @@
 #include <string>
 #include <sstream>
 
-extern const int64_t match_score;
-extern const int64_t mismatch_score;
-extern const int64_t opening_gap_score;
-extern const int64_t gap_extension_score;
-
 class dp_cell {
 private:
   static constexpr int64_t min_score = static_cast<int64_t>(std::numeric_limits<int32_t>::min());
@@ -26,20 +21,44 @@ private:
   int32_t m_d_matches;
   int32_t m_i_matches;
 
-  void score_s(const dp_cell&, const char, const char);
-  void score_d(const dp_cell&);
-  void score_i(const dp_cell&);
+  void score_s(
+    const dp_cell&,
+    const char,
+    const char,
+    const int64_t,
+    const int64_t
+  );
+  void score_d(
+    const dp_cell&,
+    const int64_t,
+    const int64_t
+  );
+  void score_i(
+    const dp_cell&,
+    const int64_t,
+    const int64_t
+  );
 public:
   dp_cell();
   ~dp_cell();
 
   int64_t get_max_score(void) const;
   int32_t get_max_score_matches(void) const;
-  void score_cell(const dp_cell&, const dp_cell&, const dp_cell&, const char, const char);
+  void score_cell(
+    const dp_cell&,
+    const dp_cell&,
+    const dp_cell&,
+    const char,
+    const char,
+    const int64_t,
+    const int64_t,
+    const int64_t,
+    const int64_t
+  );
   void reset_cell(void);
 
-  void set_top_row(size_t col_idx);
-  void set_left_col(size_t row_idx);
+  void set_top_row(size_t col_idx, const int64_t, const int64_t);
+  void set_left_col(size_t row_idx, const int64_t, const int64_t);
 
   int64_t get_s_score(void) const;
   int64_t get_d_score(void) const;
