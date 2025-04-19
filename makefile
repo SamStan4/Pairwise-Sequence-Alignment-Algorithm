@@ -38,6 +38,7 @@ run-sample: $(TARGET)
 run-brca2: $(TARGET)
 	@if [ -f $(TARGET) ]; then \
 		./$(TARGET) \
+		input/alignment-params.config \
 		input/Human-Mouse-BRCA2-cds.fasta \
 		; \
 	else \
@@ -47,7 +48,10 @@ run-brca2: $(TARGET)
 
 run-blind: $(TARGET)
 	@if [ -f $(TARGET) ]; then \
-		./$(TARGET) input/Opsin1_colorblindness_gene.fasta; \
+		./$(TARGET) \
+		input/alignment-params.config \
+		input/Opsin1_colorblindness_gene.fasta \
+		; \
 	else \
 		echo "Error: Executable $(TARGET) not found. Please build it first."; \
 		exit 1; \
