@@ -26,7 +26,10 @@ clean:
 
 run-sample: $(TARGET)
 	@if [ -f $(TARGET) ]; then \
-		./$(TARGET) input/base-sample.fasta; \
+		./$(TARGET) \
+		input/alignment-params.config \
+		input/base-sample.fasta \
+		; \
 	else \
 		echo "Error: Executable $(TARGET) not found. Please build it first."; \
 		exit 1; \
@@ -34,7 +37,9 @@ run-sample: $(TARGET)
 
 run-brca2: $(TARGET)
 	@if [ -f $(TARGET) ]; then \
-		./$(TARGET) input/Human-Mouse-BRCA2-cds.fasta; \
+		./$(TARGET) \
+		input/Human-Mouse-BRCA2-cds.fasta \
+		; \
 	else \
 		echo "Error: Executable $(TARGET) not found. Please build it first."; \
 		exit 1; \
